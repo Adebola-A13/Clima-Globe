@@ -1,5 +1,5 @@
 <template>
-  <section class="py-16 px-4 sm:px-6 lg:px-8 text-center">
+  <section class="my-16 px-4 sm:px-6 lg:px-8 text-center">
     <div class="container mx-auto max-w-4xl">
       <h2 class="text-4xl font-bold text-gray-800 mb-6">Explore Countries & Weather</h2>
       <p class="text-xl text-gray-600 mb-8">
@@ -13,7 +13,7 @@
           @keyup.enter="handleSearch"
           type="text"
           placeholder="Enter a country name (in English)..."
-          class="w-full py-4 px-6 rounded-full border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition search-bar"
+          class="w-full py-4 px-6 rounded-full border border-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition search-bar"
         />
         <button
           @click="handleSearch"

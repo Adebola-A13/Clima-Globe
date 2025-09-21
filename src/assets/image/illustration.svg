@@ -14,23 +14,23 @@
   </circle>
   
   <!-- Écran d'ordinateur -->
-  <rect x="80" y="120" width="240" height="140" rx="8" fill="#2d3748" stroke="#4a5568" stroke-width="3"/>
-  <rect x="90" y="130" width="220" height="120" fill="#1a202c"/>
+  <rect x="35" y="80" width="240" height="140" rx="8" fill="#2d3748" stroke="#4a5568" stroke-width="3"/>
+  <rect x="45" y="90" width="220" height="120" fill="#1a202c"/>
   
   <!-- Code sur l'écran -->
-  <text x="100" y="150" font-family="monospace" font-size="8" fill="#68d391">const developer = {</text>
-  <text x="110" y="165" font-family="monospace" font-size="8" fill="#90cdf4">  mood: 'happy',</text>
-  <text x="110" y="180" font-family="monospace" font-size="8" fill="#fbb6ce">  coffee: 'endless',</text>
-  <text x="110" y="195" font-family="monospace" font-size="8" fill="#faf089">  bugs: 0</text>
-  <text x="100" y="210" font-family="monospace" font-size="8" fill="#68d391">};</text>
+  <text x="50" y="110" font-family="monospace" font-size="10" fill="#68d391">const developer Ibrahim ADEHAN = {</text>
+  <text x="65" y="125" font-family="monospace" font-size="10" fill="#90cdf4">  mood: 'happy to see you today',</text>
+  <text x="65" y="145" font-family="monospace" font-size="10" fill="#fbb6ce">  coffee: 'at any time',</text>
+  <text x="65" y="165" font-family="monospace" font-size="10" fill="#faf089">  bugs: free -> 0€ </text>
+  <text x="55" y="185" font-family="monospace" font-size="10" fill="#68d391">};</text>
   
   <!-- Curseur clignotant -->
-  <rect x="130" y="205" width="1" height="10" fill="#68d391">
+  <rect x="70" y="178" width="1" height="10" fill="#68d391">
     <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
   </rect>
   
   <!-- Personnage du développeur -->
-  <g transform="translate(200,80)">
+  <g transform="translate(310,160)">
     <!-- Tête -->
     <circle cx="0" cy="0" r="25" fill="#fdbcb4"/>
     
@@ -63,7 +63,7 @@
   </g>
   
   <!-- Tasse de café avec vapeur -->
-  <g transform="translate(320,180)">
+  <g transform="translate(312,175)">
     <ellipse cx="0" cy="20" rx="12" ry="8" fill="#8b4513"/>
     <rect x="-10" y="10" width="20" height="15" fill="#d69e2e"/>
     <path d="M10,15 Q20,15 20,25 Q20,35 10,35" stroke="#8b4513" stroke-width="2" fill="none"/>
@@ -97,7 +97,7 @@
   </g>
   
   <!-- Texte animé -->
-  <text x="200" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#68d391">
+  <text x="150" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#68d391">
     Merci de visiter CLIMAGLOBALE
     <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
   </text>

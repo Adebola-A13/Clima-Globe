@@ -1,7 +1,14 @@
 <script setup>
+  import { computed } from 'vue'
+  import { useRoute } from 'vue-router'
   import Header from './components/Header.vue';
   import Footer from './components/Footer.vue';
   import ScrollToTop from './components/ui/ScrollToTop.vue';
+  import GoToChatButton from './components/ui/GoToChatButton.vue';
+
+  const route = useRoute()
+  const isOnChatPage = computed(() => route.name === 'Chat')
+
 </script>
 
 
@@ -13,6 +20,7 @@
     </main>
     <Footer />
   </div>
+  <GoToChatButton v-if="!isOnChatPage" />
   <ScrollToTop />
 </template>
 

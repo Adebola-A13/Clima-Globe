@@ -1,10 +1,10 @@
 <!--
   ====================================================================================
-  COMPONENT: ScrollToTop.vue
+  COMPONENT: GoToChatButton.vue
   ====================================================================================
 
-  @description: Bouton de retour en haut de page qui apparaît lors du défilement
-  @features: Animation fluide, responsive, icône héroïcons
+  @description: Bouton flottant qui redirige vers la page de chat
+  @features: Animation fluide, responsive, icône héroïcons, ferme le menu mobile
   @author: Équipe Data-For-Earth
   @created: 2025
   ====================================================================================
@@ -20,13 +20,12 @@
     leave-to-class="transform scale-0 opacity-0 translate-y-4"
   >
     <button
-      v-if="showButton"
-      @click="scrollToTop"
-      class="fixed bottom-6 right-6 z-50 bg-blue-600 hover:bg-indigo-950 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-indigo-950 focus:ring-offset-2"
-      aria-label="Retour en haut de page"
-      title="Retour en haut de page"
+      @click="goToChat"
+      class="fixed bottom-20 right-6 z-50 bg-blue-600 hover:bg-indigo-900 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-indigo-950 focus:ring-offset-2"
+      aria-label="Aller au chat d'assistance"
+      title="Chatbot Assistance"
     >
-      <ChevronUpIcon class="h-6 w-6 transform group-hover:scale-110 transition-transform duration-200" />
+      <ChatBubbleOvalLeftIcon class="h-6 w-6 transform group-hover:scale-110 transition-transform duration-200" />
 
       <!-- Effet de cercle au hover -->
       <div class="absolute inset-0 rounded-full bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-300"></div>
@@ -36,15 +35,16 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { ChevronUpIcon } from '@heroicons/vue/24/outline'
+import { useRouter } from 'vue-router'
+import { ChatBubbleOvalLeftIcon } from '@heroicons/vue/24/outline'
 
 /**
  * ====================================================================================
- * REACTIVE DATA
+ * COMPOSABLES & REACTIVE DATA
  * ====================================================================================
  */
-const showButton = ref(false)
-const scrollThreshold = 300 // Seuil de défilement en pixels
+const router = useRouter()
+const showButton = ref(true) // Toujours visible, ou tu peux le conditionner si besoin
 
 /**
  * ====================================================================================
@@ -53,34 +53,44 @@ const scrollThreshold = 300 // Seuil de défilement en pixels
  */
 
 /**
- * Gestion du défilement pour afficher/masquer le bouton
+ * Ferme le menu mobile (si tu utilises une ref ou un store)
+ * → À adapter selon ton implémentation réelle (Pinia, ref parent, etc.)
  */
-const handleScroll = () => {
-  showButton.value = window.scrollY > scrollThreshold
+const closeMobileMenu = () => {
+  // Exemple avec un event global (à remplacer selon ton système)
+  // window.dispatchEvent(new CustomEvent('close-mobile-menu'))
+  
+  // OU si tu utilises un store Pinia :
+  // const menuStore = useMenuStore()
+  // menuStore.closeMobileMenu()
+
+  // OU si tu passes une méthode via props/emit → ici on le laisse vide pour l'exemple
+  console.log('Fermeture du menu mobile (à implémenter)')
 }
 
 /**
- * Fonction pour remonter en haut de page avec animation fluide
+ * Redirige vers la page de chat
  */
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  })
+const goToChat = () => {
+  closeMobileMenu() // Ferme le menu mobile si ouvert
+  router.push('/chat') // Redirection vers la route /chat
 }
 
 /**
  * ====================================================================================
- * LIFECYCLE HOOKS
+ * LIFECYCLE HOOKS (optionnel ici, mais utile si tu veux cacher le bouton sur certaines pages)
  * ====================================================================================
  */
+// Exemple : Cacher le bouton sur la page /chat
+/*
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll, { passive: true })
+  const updateVisibility = () => {
+    showButton.value = router.currentRoute.value.path !== '/chat'
+  }
+  updateVisibility()
+  router.afterEach(updateVisibility)
 })
-
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+*/
 </script>
 
 <style scoped>

@@ -167,8 +167,8 @@
                 <textarea
                     v-model="userInput"
                     @keyup.enter.ctrl="sendMessage"
-                    @keyup.enter.exact.prevent="handleEnter"
-                    placeholder="Type your message here... (Ctrl+Enter to send)"
+                    @keydown.enter="handleEnter"
+                    placeholder="Type your message here..."
                     class="flex-grow py-3 px-4 rounded-lg border-0 focus:outline-none focus:ring-0 resize-none text-gray-700 placeholder-gray-400"
                     :disabled="isLoading"
                     rows="1"
@@ -178,10 +178,10 @@
                 <button
                     @click="sendMessage"
                     :disabled="isLoading || !userInput.trim()"
-                    class="bg-gradient-to-r from-red-600 to-red-600 hover:from-purple-600 hover:to-indigo-700 text-white p-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex-shrink-0"
+                    class="bg-gradient-to-r from-red-600 to-red-600 hover:from-purple-600 hover:to-indigo-700 text-white p-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 min-w-12 min-h-12 flex items-center justify-center"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                     </svg>
                 </button>
             </div>
@@ -245,9 +245,12 @@
     };
 
     const handleEnter = (event) => {
-    if (!event.shiftKey && !event.ctrlKey) {
-        sendMessage();
-    }
+        if (event.shiftKey) {
+            // Permet le saut de ligne si l'utilisateur fait Shift + Enter
+            return;
+        }
+        event.preventDefault(); // ⚠️ Empêche le saut de ligne par défaut
+        sendMessage();          // ✅ Envoie le message
     };
 
     // --- Fonctions de gestion des messages ---

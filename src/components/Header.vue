@@ -82,6 +82,14 @@
           >
             API
           </router-link>
+          <router-link 
+            to="/chat" 
+            @click="closeMobileMenu"
+            class="hover:text-blue-200 transition-colors font-medium"
+            :class="{ 'text-blue-200': $route.name === 'Api' }"
+          >
+            chatbot_Assistance
+          </router-link>
         </div>
       </div>
     </nav>

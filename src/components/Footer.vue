@@ -4,12 +4,12 @@
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <div class="mb-4 md:mb-0">
                         <div class="flex items-center space-x-2">
-                            <!-- Globe SVG -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 0v20m0-20c-4.418 0-8 4.03-8 9s3.582 9 8 9 8-4.03 8-9-3.582-9-8-9z" />
-                            </svg>
-                            <span class="text-xl font-bold">CLIMAGLOBE</span>
-                            <div class="flex justify-between items-center mt-2 text-xs text-gray-400 px-2">
+                            <div class="flex items-center space-x-2">
+                                <router-link to="/" class="flex items-center">
+                                    <img src="@/assets/image/Logo.png" alt="ClimaGlobe Logo" class="h-10 w-auto" />
+                                </router-link>
+                            </div>
+                            <div class="flex justify-between items-center mt-2 text-xs text-gray-400 px-1">
                                 <span>By Ibrahim ADEHAN </span>
                             </div>
                         </div>

@@ -6,6 +6,8 @@
 
 Ce projet a été conçu dans le cadre d'un travail purement personnel visant à explorer l'intégration et l'utilisation d'APIs tierces dans une application web moderne et à ameliorer mon utilisation d'un framework. L'objectif principal était de créer une plateforme permettant de centraliser des informations géographiques et climatiques de manière simple et accessible. En combinant les données de `restcountries.com` et `open-meteo.com`, ClimaGlobe démontre comment des services gratuits peuvent être orchestrés pour offrir une expérience utilisateur riche sans nécessiter de base de données interne complexe. Ce projet illustre également l'application pratique des concepts de développement frontend avec Vue3.js et la gestion de données asynchrones.
 
+**⚠️ Important :** ClimaGlobe dépend entièrement de services d'API tiers gratuits (`restcountries.com`, `open-meteo.com`). Nous ne garantissons pas leur disponibilité, leurs performances ou l'exactitude de leurs données à tout moment. En cas de dysfonctionnement ou de modification de ces services externes, certaines fonctionnalités de ClimaGlobe pourraient être affectées ou cesser de fonctionner. Les résultats fournis par l'application reflètent les données renvoyées par ces APIs et ne sauraient engager la responsabilité du développeur quant à leur exactitude ou leur fiabilité à long terme.
+
 ## 🚀 Fonctionnalités
 
 *   **🔍 Recherche de Pays :** Entrez le nom d'un pays (de préférence en anglais) pour obtenir ses informations de base : capitale, population, superficie, coordonnées géographiques, langues, monnaies, etc.

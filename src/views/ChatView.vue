@@ -209,12 +209,12 @@
     import { ref, nextTick, onMounted } from 'vue';
 
     // --- Configuration ---
-    const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
-    if (!OPENROUTER_API_KEY) {
-    console.error("Missing VITE_OPENROUTER_API_KEY in .env file");
-    }
-    const YOUR_SITE_URL = window.location.origin;
-    const YOUR_SITE_NAME = document.title || "My Vue App";
+    // const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
+    // if (!OPENROUTER_API_KEY) {
+    // console.error("Missing VITE_OPENROUTER_API_KEY in .env file");
+    // }
+    // const YOUR_SITE_URL = window.location.origin;
+    // const YOUR_SITE_NAME = document.title || "My Vue App";
 
     // --- État réactif ---
     const messages = ref([]);
@@ -308,72 +308,75 @@
 
     // --- Fonction principale d'envoi de message ---
     const sendMessage = async (isResend = false) => {
-    let message;
-    
-    if (isResend) {
-        // En cas de renvoi après édition, le message est déjà dans messages
-        message = messages.value[messages.value.length - 1].content;
-    } else {
-        message = userInput.value.trim();
-        if (!message || isLoading.value) return;
+        let message;
 
-        // Ajouter le message de l'utilisateur
-        messages.value.push({ role: 'user', content: message });
-        userInput.value = '';
-        
-        // Réinitialiser la hauteur du textarea
-        if (messageInput.value) {
-        messageInput.value.style.height = 'auto';
+        if (isResend) {
+            message = messages.value[messages.value.length - 1].content;
+        } else {
+            message = userInput.value.trim();
+            if (!message || isLoading.value) return;
+
+            messages.value.push({ role: 'user', content: message });
+            userInput.value = '';
+
+            if (messageInput.value) {
+                messageInput.value.style.height = 'auto';
+            }
         }
-    }
 
-    isLoading.value = true;
-    error.value = null;
+        isLoading.value = true;
+        error.value = null;
 
-    // Faire défiler vers le bas
-    await nextTick();
-    scrollToBottom();
+        await nextTick();
+        scrollToBottom();
 
-    try {
-        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-            "HTTP-Referer": YOUR_SITE_URL,
-            "X-Title": YOUR_SITE_NAME,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "model": "deepseek/deepseek-chat-v3.1:free",
-            "messages": [...messages.value]
-        })
+        try {
+        // Appel à votre fonction API Vercel sécurisée
+        const response = await fetch('/api/chat', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                messages: [...messages.value]
+            })
         });
 
         if (!response.ok) {
-        throw new Error(`API request failed with status ${response.status}`);
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || `Erreur ${response.status}: ${response.statusText}`);
         }
 
         const data = await response.json();
         const assistantMessage = data.choices?.[0]?.message?.content?.trim();
-        
+
         if (assistantMessage) {
-        messages.value.push({ role: 'assistant', content: assistantMessage });
+            messages.value.push({ role: 'assistant', content: assistantMessage });
         } else {
-        throw new Error("No response content received from API");
+            throw new Error("Aucune réponse reçue du service de chat");
         }
 
-    } catch (err) {
-        console.error("Chat API Error:", err);
-        error.value = err.message;
-        messages.value.push({ 
-        role: 'assistant', 
-        content: `Sorry, I encountered an error: ${err.message}` 
-        });
-    } finally {
+        } catch (err) {
+            console.error("Erreur API Chat:", err);
+            error.value = err.message;
+
+            // Messages d'erreur conviviaux
+            let errorMessage = "Désolé, une erreur est survenue. Veuillez réessayer.";
+            if (err.message.includes('fetch')) {
+                errorMessage = "Problème de connexion. Vérifiez votre connexion internet.";
+            } else if (err.message.includes('429')) {
+                errorMessage = "Trop de requêtes. Attendez quelques secondes avant de réessayer.";
+            }
+
+            messages.value.push({ 
+                role: 'assistant', 
+                content: errorMessage
+            });
+        } finally {
         isLoading.value = false;
-        await nextTick();
-        scrollToBottom();
-    }
+            await nextTick();
+            scrollToBottom();
+        }
     };
 
     // --- Lifecycle hooks ---

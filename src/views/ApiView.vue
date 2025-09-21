@@ -293,7 +293,7 @@
               </a>
 
               <a
-                href="https://github.com/climaglobe"
+                href="https://github.com/Adebola-A13/Clima-Globe"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="group border-2 border-white text-white px-10 py-4 rounded-xl hover:bg-white hover:text-indigo-600 transition-all duration-300 font-semibold text-lg flex items-center justify-center"

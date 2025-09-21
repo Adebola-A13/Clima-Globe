@@ -166,9 +166,9 @@
             <div class="flex items-end space-x-3 bg-white rounded-xl shadow-lg border border-gray-200 p-3">
                 <textarea
                     v-model="userInput"
-                    @keyup.enter.ctrl="sendMessage"
-                    @keydown.enter="handleEnter"
-                    placeholder="Type your message here..."
+                    @keyup.enter="sendMessage"
+                    @keydown.enter.shift.exact.prevent="addNewLine"
+                    placeholder="Type your message here... (Press Enter to send)"
                     class="flex-grow py-3 px-4 rounded-lg border-0 focus:outline-none focus:ring-0 resize-none text-gray-700 placeholder-gray-400"
                     :disabled="isLoading"
                     rows="1"
@@ -244,15 +244,6 @@
     }
     };
 
-    const handleEnter = (event) => {
-        if (event.shiftKey) {
-            // Permet le saut de ligne si l'utilisateur fait Shift + Enter
-            return;
-        }
-        event.preventDefault(); // ⚠️ Empêche le saut de ligne par défaut
-        sendMessage();          // ✅ Envoie le message
-    };
-
     // --- Fonctions de gestion des messages ---
     const clearChat = () => {
     if (messages.value.length > 0 && confirm('Are you sure you want to clear all messages?')) {
@@ -310,6 +301,13 @@
     };
 
     // --- Fonction principale d'envoi de message ---
+    const addNewLine = () => {
+        userInput.value += '\n';
+        nextTick(() => {
+            adjustTextareaHeight();
+        });
+    };
+
     const sendMessage = async (isResend = false) => {
         let message;
 
@@ -323,7 +321,7 @@
             userInput.value = '';
 
             if (messageInput.value) {
-                messageInput.value.style.height = 'auto';
+            messageInput.value.style.height = 'auto';
             }
         }
 
@@ -334,8 +332,7 @@
         scrollToBottom();
 
         try {
-        // Appel à votre fonction API Vercel sécurisée
-        const response = await fetch('/api/chat', {
+            const response = await fetch('/api/chat', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -343,40 +340,39 @@
             body: JSON.stringify({
                 messages: [...messages.value]
             })
-        });
+            });
 
-        if (!response.ok) {
+            if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
             throw new Error(errorData.error || `Erreur ${response.status}: ${response.statusText}`);
-        }
+            }
 
-        const data = await response.json();
-        const assistantMessage = data.choices?.[0]?.message?.content?.trim();
+            const data = await response.json();
+            const assistantMessage = data.choices?.[0]?.message?.content?.trim();
 
-        if (assistantMessage) {
+            if (assistantMessage) {
             messages.value.push({ role: 'assistant', content: assistantMessage });
-        } else {
+            } else {
             throw new Error("Aucune réponse reçue du service de chat");
-        }
+            }
 
         } catch (err) {
             console.error("Erreur API Chat:", err);
             error.value = err.message;
 
-            // Messages d'erreur conviviaux
             let errorMessage = "Désolé, une erreur est survenue. Veuillez réessayer.";
             if (err.message.includes('fetch')) {
-                errorMessage = "Problème de connexion. Vérifiez votre connexion internet.";
+            errorMessage = "Problème de connexion. Vérifiez votre connexion internet.";
             } else if (err.message.includes('429')) {
-                errorMessage = "Trop de requêtes. Attendez quelques secondes avant de réessayer.";
+            errorMessage = "Trop de requêtes. Attendez quelques secondes avant de réessayer.";
             }
 
             messages.value.push({ 
-                role: 'assistant', 
-                content: errorMessage
+            role: 'assistant', 
+            content: errorMessage
             });
         } finally {
-        isLoading.value = false;
+            isLoading.value = false;
             await nextTick();
             scrollToBottom();
         }
@@ -384,9 +380,9 @@
 
     // --- Lifecycle hooks ---
     onMounted(() => {
-    if (messageInput.value) {
-        messageInput.value.focus();
-    }
+        if (messageInput.value && window.innerWidth > 768) {
+            messageInput.value.focus();
+        }
     });
 </script>
 

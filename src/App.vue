@@ -20,8 +20,19 @@
     </main>
     <Footer />
   </div>
-  <GoToChatButton v-if="!isOnChatPage" />
-  <ScrollToTop />
+  <!-- Conteneur unique pour les deux boutons, positionné en bas à droite -->
+  <div
+    v-if="!isOnChatPage"
+    class="fixed bottom-6 right-6 z-50 flex space-x-3 md:space-x-4"
+  >
+    <GoToChatButton />
+    <ScrollToTop />
+  </div>
+
+  <!-- Si tu veux quand même afficher ScrollToTop sur la page /chat (optionnel) -->
+  <div v-if="isOnChatPage" class="fixed bottom-6 right-6 z-50">
+    <ScrollToTop />
+  </div>
 </template>
 
 

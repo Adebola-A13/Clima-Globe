@@ -21,7 +21,7 @@
   >
     <button
       @click="goToChat"
-      class="fixed bottom-20 right-6 z-50 bg-blue-600 hover:bg-indigo-900 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-indigo-950 focus:ring-offset-2"
+      class="bg-blue-600 hover:bg-indigo-900 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-indigo-950 focus:ring-offset-2"
       aria-label="Aller au chat d'assistance"
       title="Chatbot Assistance"
     >

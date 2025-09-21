@@ -17,7 +17,7 @@
         />
         <button
           @click="handleSearch"
-          class="absolute right-2 top-2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition"
+          class="absolute right-2 top-2 bg-indigo-950 hover:bg-indigo-700 text-white p-2 rounded-full transition"
           :disabled="loading"
           aria-label="Search for a country"
         >

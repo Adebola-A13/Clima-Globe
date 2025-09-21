@@ -37,7 +37,7 @@
                 class="text-xl text-neutre-20 hover:text-blue-500 transition"
                 :class="{ 'text-blue-200': $route.name === 'Chat' }"
             >
-                deepseek
+                chatbot_Assistance
             </router-link>
         </div>
 
